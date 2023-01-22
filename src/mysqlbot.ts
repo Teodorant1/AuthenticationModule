@@ -23,6 +23,9 @@ const connection =  mysql.createConnection({
    //   console.log(JSON.parse(JSON.stringify(results))); // results contains rows returned by server
       var results1 = Object.values(JSON.parse(JSON.stringify(results)));
 
+      var resultsarray:any[] = Object.values(results1);
+      console.log( resultsarray );
+
      // console.log(results1);
 
       return results1
