@@ -1,37 +1,23 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sqlbot = void 0;
-const mysql2_1 = __importDefault(require("mysql2"));
-var name = "paloki";
-class sqlbot {
+exports.sqlbot1 = void 0;
+class sqlbot1 {
     constructor() { }
-    getusers() {
-        // create the connection to database
-        const connection = mysql2_1.default.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'root',
-            database: 'sportstats'
-        });
-        // execute will internally call prepare and query
-        connection.query('SELECT * FROM sportstats.accounts', function (err, results, fields) {
-            //  console.log(results); // results contains rows returned by server
-            //   console.log(JSON.parse(JSON.stringify(results))); // results contains rows returned by server
-            var results1 = Object.values(JSON.parse(JSON.stringify(results)));
-            console.log(results1);
-            return results;
-            //  var result1:any = result1.at(0);
-            //  console.log(result1.username);
-            //console.log(fields); // fields contains extra meta data about results, if available
-            // If you execute same statement again, it will be picked from a LRU cache
-            // which will save query preparation time and give better performance
-        });
+    async isPresent(username, password) {
+        // get the client
+        const mysql = require('mysql2/promise');
+        // get the promise implementation, we will use bluebird
+        const bluebird = require('bluebird');
+        // create the connection, specify bluebird as Promise
+        const connection = await mysql.createConnection({ host: 'localhost', user: 'root', password: 'root', database: 'sportstats', Promise: bluebird });
+        // query database
+        const [rows, fields] = await connection.execute('SELECT * FROM `accounts` WHERE `username` = ? AND `password` = ?', [username, password]);
+        console.log(rows.length);
+        return (rows.length);
     }
-    getusers1(username, password) {
-        return "paloki";
+    async isOne(number) {
+        console.log(number === "1");
+        return (number === "1");
     }
 }
-exports.sqlbot = sqlbot;
+exports.sqlbot1 = sqlbot1;
